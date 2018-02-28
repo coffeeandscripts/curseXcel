@@ -13,7 +13,7 @@ class Table():
         self.cols = cols
         self.rows = rows
         self.cell = cell
-        self.cursor = (0, 0)
+        self.cursor = (-1, -1)
         self.shown_column = 0
         self.shown_row = 0
         self.width = width
