@@ -34,11 +34,46 @@ class Table():
             row += 1
         self.table[row][col] = value
 
-    def print_cell(self):
-        pass
+    def set_word(self, val):
+        if len(val) > self.cell:
+            val = val[:self.cell]
+            val[-1] = '.'
+            val[-2] = '.'
+        elif len(val) < self.cell:
+            x = len(val)
+            while x < self.cell:
+                val = ' ' + val
+                x += 1
+
+    def print_cell(self, y, x, val, hl, length):
+        if hl == True:
+            this.win.addstr(y, x, (self.set_word(val))[:length], curses.A_REVERSE)
+        else:
+            this.win.addstr(y, x, (self.set_word(val))[:length])
+
+    def calc_max_shown(length, chars):
+            return(round(length/chars), length%chars)
+
+    def set_highlight(self, y, x):
+        boolRet = False
+        if (self.cursor[0] == y[0]+y[1] or self.cursor[1] == -1) and (self.cursor[1] == x[0]+x[1] or self.cursor[0] == -1):
+            boolRet = True
+        return boolRet
 
     def print_table(self):
-        pass
+        x = cursor[1]
+        y = cursor[0]
+        m = (0, self.shown_row)
+        max_col = self.calc_max_shown(self.width, self.cell)
+        max_row = self.calc_max_shown(self.height, 1)
+        while m[0] < max_row[0]:
+            n = (0, self.shown_column)
+            while n[0] < max_col[0]:
+                if n * self.cell < self.width:
+                    self.print_cell(n, m, self.table[m[1]+m[0]][n[1]+n[0]], self.set_highlight(m, n), self.cell)
+                else:
+                    self.print_cell(n, m, self.table[m[1]+m[0]][n[1]+n[0]], self.set_highlight(m, n), max_col[1])
+            m += 1
 
     def refresh(self):
         pass
