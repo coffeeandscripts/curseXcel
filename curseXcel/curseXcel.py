@@ -8,10 +8,11 @@ class ThrowError(Exception):
         return (repr.value)
 
 class Table():
-    def __init__(self, win, cols, rows, width, height, col_names):
+    def __init__(self, win, cols, rows, cell_width, width, height, col_names):
         self.win = win
         self.cols = cols
         self.rows = rows
+        self.cell_width = cell_width
         self.cell = (0, 0)
         self.shown_column = 0
         self.shown_row = 0
@@ -36,6 +37,9 @@ class Table():
     def print_table(self):
         pass
 
+    def refresh(self):
+        pass
+
     def set_column_header(self, value, col):
         if this.col_names == True:
             self.table[0][col] = value
@@ -45,18 +49,22 @@ class Table():
     def shift_columns_right(self):
         if self.shown_column < self.cols:
             self.shown_column += 1
+        self.refresh()
 
     def shift_columns_left(self):
         if self.shown_column > 0:
             self.shown_column -= 1
+        self.refresh()
 
     def shift_rows_up(self):
         if self.shown_row > 0:
             self.shown_row -= 1
+        self.refresh()
 
     def shift_rows_down(self):
         if self.shown_row < self.rows:
             self.shown_row += 1
+        self.refresh()
 
     def cell_left(self):
         pass
