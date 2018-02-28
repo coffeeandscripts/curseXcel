@@ -92,8 +92,9 @@ class Table():
     def delete_row(self):
         pass
 
-    def clear_cell(self):
-        pass
+    def clear_cell(self, row, col):
+        this.table[row][col] = None
+        self.refresh()
 
     def clear_row(self, row):
         x = 0
