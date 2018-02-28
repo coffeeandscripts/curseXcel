@@ -95,8 +95,16 @@ class Table():
     def clear_cell(self):
         pass
 
-    def clear_row(self):
-        pass
+    def clear_row(self, row):
+        x = 0
+        while x < cols:
+            this.table[row][x] = None
+            x += 1
+        self.refresh()
 
-    def clear_column(self):
-        pass
+    def clear_column(self, col):
+        x = 0
+        while x < rows:
+            this.table[x][col] = None
+            x += 1
+        self.refresh()
