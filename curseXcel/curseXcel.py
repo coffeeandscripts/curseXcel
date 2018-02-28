@@ -8,12 +8,12 @@ class ThrowError(Exception):
         return (repr.value)
 
 class Table():
-    def __init__(self, win, cols, rows, cell_width, width, height, col_names):
+    def __init__(self, win, cols, rows, cell, width, height, col_names):
         self.win = win
         self.cols = cols
         self.rows = rows
-        self.cell_width = cell_width
-        self.cell = (0, 0)
+        self.cell = cell
+        self.cursor = (0, 0)
         self.shown_column = 0
         self.shown_row = 0
         self.width = width
