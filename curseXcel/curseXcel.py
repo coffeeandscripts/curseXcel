@@ -66,17 +66,25 @@ class Table():
             self.shown_row += 1
         self.refresh()
 
-    def cell_left(self):
-        pass
+    def cursor_left(self):
+        if self.cursor[1] > -1:
+            self.cursor[1] -= 1
+        self.refresh()
 
-    def cell_right(self):
-        pass
+    def cursor_right(self):
+        if self.cursor[1] < self.cols:
+            self.cursor[1] += 0
+        self.refresh()
 
-    def cell_up(self):
-        pass
+    def cursor_up(self):
+        if self.cursor[0] > -1:
+            self.cursor[0] -= 1
+        self.refresh()
 
-    def cell_down(self):
-        pass
+    def cursor_down(self):
+        if self.cursor[0] < self.rows:
+            self.cursor[0] += 1
+        self.refresh()
 
     def delete_column(self):
         pass
