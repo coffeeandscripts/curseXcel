@@ -34,6 +34,9 @@ class Table():
             row += 1
         self.table[row][col] = value
 
+    def print_cell(self):
+        pass
+
     def print_table(self):
         pass
 
@@ -86,11 +89,16 @@ class Table():
             self.cursor[0] += 1
         self.refresh()
 
-    def delete_column(self):
-        pass
+    def delete_column(self, col):
+        x = 0
+        while x < rows:
+            this.table[x][col].pop()
+            x += 1
+        self.refresh()
 
-    def delete_row(self):
-        pass
+    def delete_row(self, row):
+        self.table[row].pop()
+        self.refresh()
 
     def clear_cell(self, row, col):
         this.table[row][col] = None
