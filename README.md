@@ -1,5 +1,5 @@
 # curseXcel
-ncurses library to generate and manipulate tables
+python ncurses library to generate, print and manipulate tables
 ## Features
 ## Usage
 ## Quickstart guide

@@ -24,12 +24,15 @@ class Table():
     def generate_table(self):
         rows = self.rows
         if self.col_names == True:
-            row += 1
+            rows += 1
         self.table = []
         x = 0
         while x < rows:
             self.table.append([""] * self.cols)
             x += 1
+
+    def cursor(self):
+        return (self.cursor[0], self.cursor[1])
 
     def set_cell(self, row, col, value):
         if self.col_names == True:

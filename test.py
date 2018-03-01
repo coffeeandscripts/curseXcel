@@ -5,7 +5,7 @@ from curseXcel.curseXcel import Table
 
 def main(stdscr):
     x = 0
-    table = Table(stdscr, 4, 6, 5, 22, 3, 0)
+    table = Table(stdscr, 4, 6, 5, 22, 3, 1)
     table.set_cell(1, 0, "test")
     m = 0
     while m < 4:
