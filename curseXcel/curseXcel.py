@@ -150,29 +150,37 @@ class Table():
 
     def delete_column(self, col):
         x = 0
-        while x < rows:
-            this.table[x][col].pop()
+        while x < self.rows:
+            del self.table[x][col]
             x += 1
+        self.cols -= 1
         self.refresh()
 
     def delete_row(self, row):
-        self.table[row].pop()
+        if self.col_names == True:
+            row += 1
+        del self.table[row]
+        self.rows -= 1
         self.refresh()
 
     def clear_cell(self, row, col):
-        this.table[row][col] = None
+        if self.col_names == True:
+            row += 1
+        self.table[row][col] = " "
         self.refresh()
 
     def clear_row(self, row):
         x = 0
-        while x < cols:
-            this.table[row][x] = None
+        if self.col_names == True:
+            row += 1
+        while x < self.cols:
+            self.table[row][x] = " "
             x += 1
         self.refresh()
 
     def clear_column(self, col):
         x = 0
-        while x < rows:
-            this.table[x][col] = None
+        while x < self.rows:
+            self.table[x][col] = " "
             x += 1
         self.refresh()
