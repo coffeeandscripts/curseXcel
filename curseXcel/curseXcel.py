@@ -120,11 +120,16 @@ class Table():
     def cursor_up(self):
         if self.cursor[0] > -1:
             self.cursor[0] -= 1
+            if self.cursor[0] == self.shown_row -1 and self.shown_row > 0:
+                self.shown_row -= 1
         self.refresh()
 
     def cursor_down(self):
+        max_rows = self.calc_max_shown(self.height, 1)
         if self.cursor[0] < self.rows - 1:
             self.cursor[0] += 1
+            if self.cursor[0] - self.shown_row >= max_rows[0]:
+                self.shown_row += 1
         self.refresh()
 
     def delete_column(self, col):
