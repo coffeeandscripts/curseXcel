@@ -34,13 +34,12 @@ class Table():
     def set_cell(self, row, col, value):
         if self.col_names == True:
             row += 1
-        self.table[row][col] = value
+        self.table[row][col] = str(value)
 
     def set_word(self, val):
         if len(val) > self.cell:
-            val = val[:self.cell]
-            val[-1] = '.'
-            val[-2] = '.'
+            val = val[:self.cell-2]
+            val = val + '..'
         elif len(val) < self.cell:
             x = len(val)
             while x < self.cell:
@@ -70,8 +69,7 @@ class Table():
         while y < max_rows[0] and y < self.rows:
             x = 0
             while x < max_cols[0] and x < self.cols:
-                
-                self.print_cell(y, x*self.cell, self.set_word(self.table[y][x]), self.set_highlight(y, x), self.cell)
+                self.print_cell(y, x*self.cell, self.set_word(self.table[y+self.shown_row][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
                 x += 1
             y += 1
 
@@ -107,7 +105,7 @@ class Table():
     def cursor_left(self):
         if self.cursor[1] > -1:
             self.cursor[1] -= 1
-            if self.cursor[1] == self.shown_column and self.shown_column > 0:
+            if self.cursor[1] == self.shown_column - 1 and self.shown_column > 0:
                 self.shown_column -= 1
         self.refresh()
 
@@ -115,7 +113,7 @@ class Table():
         max_cols = self.calc_max_shown(self.width, self.cell)
         if self.cursor[1] < self.cols - 1:
             self.cursor[1] += 1
-            if self.cursor[1] >= max_cols[0]:
+            if self.cursor[1] - self.shown_column >= max_cols[0]:
                 self.shown_column += 1
         self.refresh()
 
