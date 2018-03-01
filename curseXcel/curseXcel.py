@@ -82,7 +82,8 @@ class Table():
                 x += 1
             y += 1
 
-    
+    def cell(self):
+        return self.table[cursor[0]][cursor[1]]
 
     def refresh(self):
         self.win.clear()
