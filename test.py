@@ -5,9 +5,11 @@ from curseXcel.curseXcel import Table
 
 def main(stdscr):
     x = 0
-    table = Table(stdscr, 4, 6, 3, 20, 30, spacing=1, col_names=True)
-    table.set_cell(1, 0, "test")
-    table.set_column_header(str(6), 5)
+    table = Table(stdscr, 4, 6, 5, 20, 30, spacing=1, col_names=True)
+    m = 0
+    while m < 6:
+        table.set_column_header("Col " + str(m+1), m)
+        m += 1
     m = 0
     while m < 4:
         n = 0
@@ -17,9 +19,7 @@ def main(stdscr):
         m += 1
     table.delete_row(2)
     while (x != 'q'):
-        stdscr.clear()
-        table.print_table()
-        stdscr.refresh()
+        table.refresh()
         x = stdscr.getkey()
         if (x == 'j'):
             table.cursor_left()
