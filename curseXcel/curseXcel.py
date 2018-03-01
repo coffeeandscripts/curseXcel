@@ -1,4 +1,4 @@
-import ncurses
+import curses
 
 class ThrowError(Exception):
     def __init__(self, value):
@@ -8,12 +8,12 @@ class ThrowError(Exception):
         return (repr.value)
 
 class Table():
-    def __init__(self, win, cols, rows, cell, width, height, col_names):
+    def __init__(self, win, rows, cols, cell, width, height, col_names):
         self.win = win
         self.cols = cols
         self.rows = rows
         self.cell = cell
-        self.cursor = (-1, -1)
+        self.cursor = [-1, -1]
         self.shown_column = 0
         self.shown_row = 0
         self.width = width
@@ -22,15 +22,17 @@ class Table():
         self.generate_table()
 
     def generate_table(self):
-        if col_names == True:
-            self.table = [None] * (rows + 1)
-        else:
-            self.table = [None] * rows
-        for x in self.table:
-            x = [None] * cols
+        rows = self.rows
+        if self.col_names == True:
+            row += 1
+        self.table = []
+        x = 0
+        while x < rows:
+            self.table.append([""] * self.cols)
+            x += 1
 
-    def set_cell(self, value, row, col):
-        if this.col_names == True:
+    def set_cell(self, row, col, value):
+        if self.col_names == True:
             row += 1
         self.table[row][col] = value
 
@@ -44,36 +46,34 @@ class Table():
             while x < self.cell:
                 val = ' ' + val
                 x += 1
+        return val
 
     def print_cell(self, y, x, val, hl, length):
         if hl == True:
-            this.win.addstr(y, x, (self.set_word(val))[:length], curses.A_REVERSE)
+            self.win.addstr(y, x, (self.set_word(val))[:length], curses.A_REVERSE)
         else:
-            this.win.addstr(y, x, (self.set_word(val))[:length])
+            self.win.addstr(y, x, (self.set_word(val))[:length])
 
-    def calc_max_shown(length, chars):
+    def calc_max_shown(self, length, chars):
             return(round(length/chars), length%chars)
 
     def set_highlight(self, y, x):
         boolRet = False
-        if (self.cursor[0] == y[0]+y[1] or self.cursor[1] == -1) and (self.cursor[1] == x[0]+x[1] or self.cursor[0] == -1):
+        if (self.cursor[0] == y or self.cursor[0] == -1) and (self.cursor[1] == x or self.cursor[1] == -1):
             boolRet = True
         return boolRet
 
     def print_table(self):
-        x = cursor[1]
-        y = cursor[0]
-        m = (0, self.shown_row)
-        max_col = self.calc_max_shown(self.width, self.cell)
-        max_row = self.calc_max_shown(self.height, 1)
-        while m[0] < max_row[0]:
-            n = (0, self.shown_column)
-            while n[0] < max_col[0]:
-                if n * self.cell < self.width:
-                    self.print_cell(n, m, self.table[m[1]+m[0]][n[1]+n[0]], self.set_highlight(m, n), self.cell)
-                else:
-                    self.print_cell(n, m, self.table[m[1]+m[0]][n[1]+n[0]], self.set_highlight(m, n), max_col[1])
-            m += 1
+        max_cols = self.calc_max_shown(self.width, self.cell)
+        max_rows = self.calc_max_shown(self.height, 1)
+        y = 0
+        while y < max_rows[0] and y < self.rows:
+            x = 0
+            while x < max_cols[0] and x < self.cols:
+                
+                self.print_cell(y, x*self.cell, self.set_word(self.table[y][x]), self.set_highlight(y, x), self.cell)
+                x += 1
+            y += 1
 
     def refresh(self):
         pass
@@ -107,11 +107,16 @@ class Table():
     def cursor_left(self):
         if self.cursor[1] > -1:
             self.cursor[1] -= 1
+            if self.cursor[1] == self.shown_column and self.shown_column > 0:
+                self.shown_column -= 1
         self.refresh()
 
     def cursor_right(self):
-        if self.cursor[1] < self.cols:
-            self.cursor[1] += 0
+        max_cols = self.calc_max_shown(self.width, self.cell)
+        if self.cursor[1] < self.cols - 1:
+            self.cursor[1] += 1
+            if self.cursor[1] >= max_cols[0]:
+                self.shown_column += 1
         self.refresh()
 
     def cursor_up(self):
@@ -120,7 +125,7 @@ class Table():
         self.refresh()
 
     def cursor_down(self):
-        if self.cursor[0] < self.rows:
+        if self.cursor[0] < self.rows - 1:
             self.cursor[0] += 1
         self.refresh()
 
