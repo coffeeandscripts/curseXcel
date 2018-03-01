@@ -1,7 +1,7 @@
 import curses
 
 class Table():
-    def __init__(self, win, rows, cols, cell, width, height, col_names=None):
+    def __init__(self, win, rows, cols, cell, width, height, col_names=None, spacing=None):
         self.win = win
         self.cols = cols
         self.rows = rows
@@ -11,6 +11,10 @@ class Table():
         self.shown_row = 0
         self.width = width
         self.height = height
+        if spacing == None:
+            self.spacing = 0
+        else:
+            self.spacing = spacing
         if col_names == None:
             self.col_names = False
         else:
@@ -65,16 +69,16 @@ class Table():
         return boolRet
 
     def print_table(self):
-        max_cols = self.calc_max_shown(self.width, self.cell)
+        max_cols = self.calc_max_shown(self.width, self.cell+self.spacing)
         max_rows = self.calc_max_shown(self.height, 1)
         y = 0
         while y < max_rows[0] and y < self.rows:
             x = 0
             while x < max_cols[0] and x < self.cols:
                 if self.col_names == True and y == 0:
-                    self.print_cell(y, x*self.cell, self.set_word(self.table[0][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
+                    self.print_cell(y, x*self.cell+x*self.spacing, self.set_word(self.table[0][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
                 else:
-                    self.print_cell(y, x*self.cell, self.set_word(self.table[y+self.shown_row][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
+                    self.print_cell(y, x*self.cell+x*self.spacing, self.set_word(self.table[y+self.shown_row][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
                 x += 1
             y += 1
 
@@ -115,7 +119,7 @@ class Table():
         self.refresh()
 
     def cursor_right(self):
-        max_cols = self.calc_max_shown(self.width, self.cell)
+        max_cols = self.calc_max_shown(self.width, self.cell+self.spacing)
         if self.cursor[1] < self.cols - 1:
             self.cursor[1] += 1
             if self.cursor[1] - self.shown_column >= max_cols[0]:

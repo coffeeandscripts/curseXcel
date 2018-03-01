@@ -6,7 +6,7 @@ from curseXcel.curseXcel import Table
 def main(stdscr):
     x = 0
     win = curses.newwin(20, 10, 10, 5)
-    table = Table(win, 4, 6, 3, 5, 10)
+    table = Table(win, 4, 6, 3, 10, 20, spacing=1)
     table.set_cell(1, 0, "test")
     #table.set_column_header(str(6), 5)
     m = 0
