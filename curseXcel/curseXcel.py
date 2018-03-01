@@ -1,14 +1,7 @@
 import curses
 
-class ThrowError(Exception):
-    def __init__(self, value):
-        self.value = value
-
-    def __str__(self):
-        return (repr.value)
-
 class Table():
-    def __init__(self, win, rows, cols, cell, width, height, col_names):
+    def __init__(self, win, rows, cols, cell, width, height, col_names=None):
         self.win = win
         self.cols = cols
         self.rows = rows
@@ -18,14 +11,19 @@ class Table():
         self.shown_row = 0
         self.width = width
         self.height = height
-        self.col_names = col_names
+        if col_names == None:
+            self.col_names = False
+        else:
+            self.col_names = col_names
+            self.rows += 1
+        if self.win.getmaxyx()[0] < self.height:
+            raise Exception("table y printing outside of range")
+        if self.win.getmaxyx()[1] < self.width:
+            raise Exception("table x printing outside of range")
         self.generate_table()
 
     def generate_table(self):
         rows = self.rows
-        if self.col_names == True:
-            rows += 1
-            self.rows = rows
         self.table = []
         x = 0
         while x < rows:
@@ -87,7 +85,7 @@ class Table():
         if self.col_names == True:
             self.table[0][col] = str(value)
         else:
-            raise ThrowError("Set col_names boolean True")
+            raise Exception("Set col_names boolean True")
 
     def shift_columns_right(self):
         if self.shown_column < self.cols:
