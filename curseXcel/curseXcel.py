@@ -82,8 +82,12 @@ class Table():
                 x += 1
             y += 1
 
+    
+
     def refresh(self):
-        pass
+        self.win.clear()
+        self.print_table()
+        self.win.refresh()
 
     def set_column_header(self, value, col):
         if self.col_names == True:
