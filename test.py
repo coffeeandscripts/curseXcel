@@ -7,6 +7,7 @@ def main(stdscr):
     x = 0
     table = Table(stdscr, 4, 6, 5, 22, 3, 1)
     table.set_cell(1, 0, "test")
+    table.set_column_header(str(6), 5)
     m = 0
     while m < 4:
         n = 0

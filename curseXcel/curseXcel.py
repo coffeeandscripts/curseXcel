@@ -25,6 +25,7 @@ class Table():
         rows = self.rows
         if self.col_names == True:
             rows += 1
+            self.rows = rows
         self.table = []
         x = 0
         while x < rows:
@@ -72,7 +73,10 @@ class Table():
         while y < max_rows[0] and y < self.rows:
             x = 0
             while x < max_cols[0] and x < self.cols:
-                self.print_cell(y, x*self.cell, self.set_word(self.table[y+self.shown_row][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
+                if self.col_names == True and y == 0:
+                    self.print_cell(y, x*self.cell, self.set_word(self.table[0][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
+                else:
+                    self.print_cell(y, x*self.cell, self.set_word(self.table[y+self.shown_row][x+self.shown_column]), self.set_highlight(y+self.shown_row, x+self.shown_column), self.cell)
                 x += 1
             y += 1
 
@@ -80,8 +84,8 @@ class Table():
         pass
 
     def set_column_header(self, value, col):
-        if this.col_names == True:
-            self.table[0][col] = value
+        if self.col_names == True:
+            self.table[0][col] = str(value)
         else:
             raise ThrowError("Set col_names boolean True")
 
@@ -123,7 +127,9 @@ class Table():
     def cursor_up(self):
         if self.cursor[0] > -1:
             self.cursor[0] -= 1
-            if self.cursor[0] == self.shown_row -1 and self.shown_row > 0:
+            if self.col_names == False and self.cursor[0] == self.shown_row - 1 and self.shown_row > 0:
+                self.shown_row -= 1
+            if self.col_names == True and self.cursor[0] == self.shown_row and self.shown_row > 0:
                 self.shown_row -= 1
         self.refresh()
 
