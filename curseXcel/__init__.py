@@ -1,1 +1,1 @@
-__all__ = ["curseXcel"]
+from .curseXcel import Table
