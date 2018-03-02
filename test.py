@@ -1,7 +1,7 @@
 #!/usr/env/bin python3
 
 import curses
-from curseXcel.curseXcel import Table
+from curseXcel import Table
 
 def main(stdscr):
     x = 0
